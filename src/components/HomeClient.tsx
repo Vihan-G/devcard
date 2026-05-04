@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Hero from "./Hero";
 import DevCard from "./DevCard";
 import ThemePicker from "./ThemePicker";
+import DownloadButton from "./DownloadButton";
 import { fetchProfile, GitHubError } from "@/lib/github";
 import type { ProcessedProfile, ThemeName } from "@/lib/types";
 
@@ -13,6 +14,7 @@ export default function HomeClient() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [theme, setTheme] = useState<ThemeName>("dark");
+  const cardRef = useRef<HTMLDivElement | null>(null);
 
   async function handleSubmit(name: string) {
     setUsername(name);
@@ -51,9 +53,13 @@ export default function HomeClient() {
               <ThemePicker value={theme} onChange={setTheme} />
               <div className="w-full overflow-x-auto">
                 <div className="mx-auto" style={{ width: 800 }}>
-                  <DevCard profile={profile} theme={theme} />
+                  <DevCard profile={profile} theme={theme} ref={cardRef} />
                 </div>
               </div>
+              <DownloadButton
+                targetRef={cardRef}
+                filename={`devcard-${profile.login}-${theme}.png`}
+              />
             </>
           )}
           {!profile && !loading && !error && (
