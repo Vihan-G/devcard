@@ -2,7 +2,7 @@
 
 > Type your GitHub username. Get a beautiful developer profile card. Download as PNG.
 
-**Live:** https://devcard.vercel.app
+**Live:** https://devcard-ochre.vercel.app
 **Source:** https://github.com/Vihan-G/devcard
 
 devcard pulls public data from the GitHub REST API and renders a polished

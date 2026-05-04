@@ -13,7 +13,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://devcard.vercel.app"),
+  metadataBase: new URL("https://devcard-ochre.vercel.app"),
   title: {
     default: "devcard — Your GitHub, beautifully presented",
     template: "%s · devcard",
