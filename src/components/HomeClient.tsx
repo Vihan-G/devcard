@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { motion } from "framer-motion";
 import Hero from "./Hero";
 import DevCard from "./DevCard";
 import ThemePicker from "./ThemePicker";
@@ -63,9 +64,16 @@ export default function HomeClient() {
               <>
                 <ThemePicker value={theme} onChange={setTheme} />
                 <div className="w-full overflow-x-auto">
-                  <div className="mx-auto" style={{ width: 800 }}>
+                  <motion.div
+                    key={profile.login}
+                    initial={{ opacity: 0, y: 16, scale: 0.98 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                    className="mx-auto"
+                    style={{ width: 800 }}
+                  >
                     <DevCard profile={profile} theme={theme} ref={cardRef} />
-                  </div>
+                  </motion.div>
                 </div>
                 <DownloadButton
                   targetRef={cardRef}
