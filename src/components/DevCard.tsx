@@ -3,6 +3,9 @@
 import { forwardRef } from "react";
 import type { ProcessedProfile, ThemeName } from "@/lib/types";
 import { formatCompact } from "@/lib/github";
+import StatBlock from "./StatBlock";
+import TopRepos from "./TopRepos";
+import LanguageBar from "./LanguageBar";
 
 interface ThemeStyle {
   background: string;
@@ -168,134 +171,22 @@ const DevCard = forwardRef<HTMLDivElement, Props>(function DevCard(
         />
 
         <div style={{ display: "flex", gap: 40, marginBottom: 14 }}>
-          <Stat label="Repos" value={formatCompact(profile.publicRepos)} />
-          <Stat label="Followers" value={formatCompact(profile.followers)} />
-          <Stat label="Following" value={formatCompact(profile.following)} />
+          <StatBlock label="Repos" value={formatCompact(profile.publicRepos)} />
+          <StatBlock
+            label="Followers"
+            value={formatCompact(profile.followers)}
+          />
+          <StatBlock
+            label="Following"
+            value={formatCompact(profile.following)}
+          />
         </div>
 
-        {profile.topRepos.length > 0 && (
-          <div style={{ marginBottom: 14 }}>
-            <div
-              style={{
-                fontSize: 11,
-                color: "#7d8590",
-                textTransform: "uppercase",
-                letterSpacing: "0.06em",
-                marginBottom: 6,
-              }}
-            >
-              Top repos
-            </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-              {profile.topRepos.map((r) => (
-                <div
-                  key={r.name}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    fontSize: 13,
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 8,
-                      minWidth: 0,
-                    }}
-                  >
-                    <span
-                      style={{
-                        width: 6,
-                        height: 6,
-                        borderRadius: "50%",
-                        background: "#58a6ff",
-                        flexShrink: 0,
-                      }}
-                    />
-                    <span
-                      style={{
-                        color: "#58a6ff",
-                        fontWeight: 500,
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
-                      {r.name}
-                    </span>
-                  </div>
-                  <div style={{ color: "#7d8590", whiteSpace: "nowrap" }}>
-                    ★ {formatCompact(r.stars)}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+        <div style={{ marginBottom: 14 }}>
+          <TopRepos repos={profile.topRepos} />
+        </div>
 
-        {profile.languages.length > 0 && (
-          <div>
-            <div
-              style={{
-                fontSize: 11,
-                color: "#7d8590",
-                textTransform: "uppercase",
-                letterSpacing: "0.06em",
-                marginBottom: 6,
-              }}
-            >
-              Languages
-            </div>
-            <div style={{ display: "flex", gap: 2, height: 8 }}>
-              {profile.languages.map((lang, i) => (
-                <div
-                  key={lang.name}
-                  style={{
-                    flexBasis: `${lang.percentage}%`,
-                    background: lang.color,
-                    borderTopLeftRadius: i === 0 ? 4 : 0,
-                    borderBottomLeftRadius: i === 0 ? 4 : 0,
-                    borderTopRightRadius:
-                      i === profile.languages.length - 1 ? 4 : 0,
-                    borderBottomRightRadius:
-                      i === profile.languages.length - 1 ? 4 : 0,
-                  }}
-                />
-              ))}
-            </div>
-            <div
-              style={{
-                marginTop: 8,
-                display: "flex",
-                flexWrap: "wrap",
-                gap: "6px 14px",
-                fontSize: 11,
-                color: "#7d8590",
-              }}
-            >
-              {profile.languages.map((lang) => (
-                <div
-                  key={lang.name}
-                  style={{ display: "flex", alignItems: "center", gap: 5 }}
-                >
-                  <span
-                    style={{
-                      width: 8,
-                      height: 8,
-                      borderRadius: "50%",
-                      background: lang.color,
-                    }}
-                  />
-                  <span>
-                    {lang.name} {lang.percentage}%
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+        <LanguageBar languages={profile.languages} />
       </div>
 
       <div
@@ -313,33 +204,5 @@ const DevCard = forwardRef<HTMLDivElement, Props>(function DevCard(
     </div>
   );
 });
-
-function Stat({ label, value }: { label: string; value: string }) {
-  return (
-    <div>
-      <div
-        style={{
-          fontSize: 22,
-          fontWeight: 700,
-          color: "#e6edf3",
-          lineHeight: 1.1,
-        }}
-      >
-        {value}
-      </div>
-      <div
-        style={{
-          fontSize: 11,
-          color: "#7d8590",
-          textTransform: "uppercase",
-          letterSpacing: "0.06em",
-          marginTop: 2,
-        }}
-      >
-        {label}
-      </div>
-    </div>
-  );
-}
 
 export default DevCard;
