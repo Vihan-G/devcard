@@ -1,36 +1,79 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# devcard
 
-## Getting Started
+> Type your GitHub username. Get a beautiful developer profile card. Download as PNG.
 
-First, run the development server:
+**Live:** https://devcard.vercel.app
+**Source:** https://github.com/Vihan-G/devcard
+
+devcard pulls public data from the GitHub REST API and renders a polished
+800×420 card you can drop into your README, portfolio, social header, or
+anywhere else. No login. No API key. No server.
+
+![devcard screenshot placeholder](./docs/screenshot.png)
+
+## What it does
+
+- Fetches a profile from `api.github.com/users/{username}` (and their repos).
+- Computes total stars, top 3 repos by stars, and a top-5 language breakdown.
+- Renders a 800×420 card with three theme variants — Dark, Midnight, Ocean.
+- Exports the card as a high-resolution PNG via `html2canvas`.
+- Smooth entrance animation with `framer-motion`.
+
+## Tech stack
+
+- **Next.js 16** (App Router) · **TypeScript** · **Tailwind CSS v4**
+- `html2canvas` — DOM → PNG export
+- `framer-motion` — entrance animation
+- GitHub REST API (unauthenticated, public)
+
+## Run locally
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+src/
+  app/
+    page.tsx              full page (header → hero → tool/examples → footer)
+    layout.tsx            metadata + fonts
+    globals.css
+  components/
+    Header.tsx            site header with logo and source link
+    Hero.tsx              headline + search form
+    SearchForm.tsx        username input + generate button
+    DevCard.tsx           the 800×420 card
+    StatBlock.tsx         single stat (repos / followers / following)
+    LanguageBar.tsx       segmented language bar + legend
+    TopRepos.tsx          top 3 repos by stars
+    ThemePicker.tsx       3 theme circles
+    DownloadButton.tsx    triggers PNG download
+    ExampleCards.tsx      static example cards for first-load state
+    ErrorMessage.tsx      error UI with retry
+    HomeClient.tsx        client-side page state
+    Footer.tsx            site footer
+  lib/
+    github.ts             API fetching + data processing
+    languages.ts          language → color map
+    types.ts              shared interfaces
+    export.ts             html2canvas → PNG download
+```
 
-## Learn More
+## Notes
 
-To learn more about Next.js, take a look at the following resources:
+- GitHub allows **60 unauthenticated requests/hour per IP**. The UI mentions
+  this. Each card render uses 2 requests (user + repos).
+- Avatars are loaded with `crossOrigin="anonymous"` so the rendered canvas
+  is not tainted and the PNG export works.
+- Forks are excluded from total-stars and top-repos calculations.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Made by
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+[Vihan Goenka](https://github.com/Vihan-G) · UCSD CS '29
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Not affiliated with GitHub, Inc.

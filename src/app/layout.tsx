@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -13,9 +13,42 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "devcard — Your GitHub, beautifully presented",
+  metadataBase: new URL("https://devcard.vercel.app"),
+  title: {
+    default: "devcard — Your GitHub, beautifully presented",
+    template: "%s · devcard",
+  },
   description:
     "Generate a shareable developer card from your GitHub profile. No login. No setup. Just type and download.",
+  keywords: [
+    "github",
+    "developer card",
+    "profile card",
+    "github profile",
+    "readme",
+    "open source",
+  ],
+  authors: [{ name: "Vihan Goenka", url: "https://github.com/Vihan-G" }],
+  creator: "Vihan Goenka",
+  openGraph: {
+    type: "website",
+    title: "devcard — Your GitHub, beautifully presented",
+    description:
+      "Generate a shareable developer card from your GitHub profile. No login. No setup. Just type and download.",
+    url: "/",
+    siteName: "devcard",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "devcard — Your GitHub, beautifully presented",
+    description:
+      "Generate a shareable developer card from any GitHub username. Free, no login, downloads as PNG.",
+  },
+  robots: { index: true, follow: true },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#010409",
 };
 
 export default function RootLayout({
